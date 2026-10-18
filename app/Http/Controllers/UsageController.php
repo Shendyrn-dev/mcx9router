@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\NineRouterClient;
+use App\Services\BlitzMcpClient;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -77,7 +78,7 @@ class UsageController extends Controller
      * sleep ikut bangun. Tunggu sampai upstream merespons (termasuk cold start).
      * Rate limit 1 request per 60 detik supaya tidak spam cold start.
      */
-    public function wakeUp(Request $request, NineRouterClient $client): JsonResponse
+    public function wakeUp(Request $request, NineRouterClient $client, BlitzMcpClient $blitz): JsonResponse
     {
         $rateKey = 'ninerouter:wakecooldown';
         if (Cache::has($rateKey)) {
@@ -99,20 +100,35 @@ class UsageController extends Controller
         $started = microtime(true);
 
         try {
-            $client->wakeUp();
+            $blitz->resumeConfiguredApp();
             $elapsed = round(microtime(true) - $started, 1);
             Cache::put($rateKey, true, now()->addSeconds(60));
             Cache::put($rateKey . ':ttl', 60, now()->addSeconds(60));
             return response()->json([
                 'status' => 'awake',
+                'method' => 'blitz',
                 'elapsed_seconds' => $elapsed,
-                'message' => '9Router merespons. Instance aktif.',
+                'message' => 'Instance dibangunkan via Blitz MCP.',
             ]);
         } catch (\Throwable $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Gagal membangunkan 9Router: ' . $e->getMessage(),
-            ], 504);
+            // Fallback: ping NineRouter
+            try {
+                $client->wakeUp();
+                $elapsed = round(microtime(true) - $started, 1);
+                Cache::put($rateKey, true, now()->addSeconds(60));
+                Cache::put($rateKey . ':ttl', 60, now()->addSeconds(60));
+                return response()->json([
+                    'status' => 'awake',
+                    'method' => 'ping',
+                    'elapsed_seconds' => $elapsed,
+                    'message' => 'Instance dibangunkan via ping.',
+                ]);
+            } catch (\Throwable $inner) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Wake gagal: ' . $inner->getMessage(),
+                ], 504);
+            }
         }
     }
 }

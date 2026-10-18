@@ -43,6 +43,12 @@ return [
         'chart_path'  => env('CHART_PATH', '/api/usage/chart'),
     ],
 
+    'blitz' => [
+        'mcp_url' => env('BLITZ_MCP_URL', 'https://mcp.blitz.cloud/shendyrn-dev'),
+        'api_key' => env('BLITZ_API_KEY'),
+        'app_id' => env('BLITZ_APP_ID'),
+    ],
+
     'dashboard' => [
         'user'     => env('DASH_USER', 'admin'),
         'password' => env('DASH_PASSWORD'),
