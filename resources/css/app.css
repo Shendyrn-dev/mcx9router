@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0b0b10;
+  --color-surface: #131319;
+  --color-surface-2: #1a1a22;
+  --color-border: rgba(255,255,255,.08);
+  --color-text: #f2f2f7;
+  --color-text-muted: #9696a8;
+  --color-accent: #8b5cf6;
+  --color-accent-light: #a78bfa;
+  --color-positive: #a3e635;
+  --color-negative: #f0502a;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body { margin: 0; background: #0b0b10; color: #f2f2f7; font-family: var(--font-sans); }
+button { font: inherit; }
+
+.card {
+  background: #131319;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 20px;
+  padding: 20px;
+  min-width: 0;
+  transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+.card:hover { background: #181820; border-color: rgba(167,139,250,.3); transform: translateY(-1px); }
+.section-title { display:flex; align-items:center; gap:9px; margin:0 0 18px; color:#a78bfa; font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+.section-title::before { content:""; width:3px; height:15px; border-radius:99px; background:linear-gradient(#8b5cf6,#a78bfa); }
+.nav-pill, .period-btn { border:1px solid rgba(255,255,255,.1); border-radius:999px; background:#131319; color:#9696a8; cursor:pointer; transition:.2s; }
+.nav-pill { padding:9px 16px; }
+.nav-pill:hover, .period-btn:hover { border-color:#a78bfa; color:#f2f2f7; }
+.nav-pill.active { background:#f2f2f7; border-color:#f2f2f7; color:#0b0b10; }
+.period-btn { display:flex; align-items:center; gap:8px; padding:9px 14px; border-radius:12px; color:#f2f2f7; }
+.period-menu { overflow:hidden; border-radius:12px; box-shadow:0 16px 40px rgba(0,0,0,.45); }
+.period-menu button { display:block; width:100%; padding:10px 14px; border:0; background:transparent; color:#9696a8; text-align:left; cursor:pointer; }
+.period-menu button:hover { background:#1a1a22; color:#f2f2f7; }
+.period-menu button.selected { background:#8b5cf6; color:white; }
+table { border-collapse:collapse; min-width:720px; }
+@media (max-width: 700px) {
+  .card { padding:16px; border-radius:16px; }
+  .nav-pill { padding:8px 11px; font-size:12px; }
+}
