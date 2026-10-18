@@ -100,11 +100,9 @@ class UsageController extends Controller
 
         try {
             $client->wakeUp();
-
             $elapsed = round(microtime(true) - $started, 1);
             Cache::put($rateKey, true, now()->addSeconds(60));
             Cache::put($rateKey . ':ttl', 60, now()->addSeconds(60));
-
             return response()->json([
                 'status' => 'awake',
                 'elapsed_seconds' => $elapsed,
