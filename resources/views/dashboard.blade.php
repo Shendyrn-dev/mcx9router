@@ -149,8 +149,7 @@
             </div>
             <nav class="space-y-1">
                 <a class="side-link active" href="#overview" data-view="overview"><span>◈</span> Overview</a>
-                <a class="side-link" href="#activity" data-view="activity"><span>≋</span> Activity</a>
-                <a class="side-link" href="#models" data-view="models"><span>◫</span> Models</a>
+
                 <a class="side-link" href="#settings" data-view="settings"><span>⚙</span> Settings</a>
                 <a class="side-link" href="#apiinfo" data-view="apiinfo"><span>🔑</span> API Info</a>
             </nav>
@@ -204,7 +203,7 @@
 
                 <section id="activity" data-view="activity" class="terminal-card mb-5 overflow-hidden"><div class="flex items-center justify-between px-4 py-3"><div><h2 class="panel-title">RECENT REQUESTS</h2><p class="mono mt-1 text-[10px] text-[#8190a5]">LATEST API ACTIVITY</p></div><span class="mono text-[10px] text-[#8190a5]">LAST 10</span></div><div class="overflow-x-auto"><table><thead><tr><th>Time</th><th>Model</th><th>Provider</th><th>Input</th><th>Output</th><th>Status</th></tr></thead><tbody id="recentTable"></tbody></table></div></section>
 
-                <section id="models" data-view="models" class="terminal-card overflow-hidden"><div class="flex items-center justify-between px-4 py-3"><div><h2 class="panel-title">MODEL BREAKDOWN</h2><p class="mono mt-1 text-[10px] text-[#8190a5]">AGGREGATED USAGE BY MODEL</p></div><span class="mono text-[10px] text-[#8190a5]">COST RANKED</span></div><div class="overflow-x-auto"><table><thead><tr><th>Model</th><th>Provider</th><th>Requests</th><th>Input Tokens</th><th>Output Tokens</th><th>Cached</th><th>Total Cost</th><th>Last Used</th></tr></thead><tbody id="modelsTable"></tbody></table></div></section>
+                <section id="models" data-view="models" class="terminal-card mb-5 overflow-hidden"><div class="flex items-center justify-between px-4 py-3"><div><h2 class="panel-title">MODEL BREAKDOWN</h2><p class="mono mt-1 text-[10px] text-[#8190a5]">AGGREGATED USAGE BY MODEL</p></div><span class="mono text-[10px] text-[#8190a5]">COST RANKED</span></div><div class="overflow-x-auto"><table><thead><tr><th>Model</th><th>Provider</th><th>Requests</th><th>Input Tokens</th><th>Output Tokens</th><th>Cached</th><th>Total Cost</th><th>Last Used</th></tr></thead><tbody id="modelsTable"></tbody></table></div></section>
 
                 <section id="settings" data-view="settings" class="mb-5" style="display:none;">
                     <div class="mb-8">
@@ -268,12 +267,7 @@
 
                         <div>
                             <p class="mono text-[10px] text-[#8190a5] mb-3">API KEY</p>
-                            <div class="flex items-center gap-2">
-                                <input type="password" id="apiKey" readonly class="flex-1 px-3 py-2 rounded bg-[#111823] border border-[#243142] text-[#c2cfdd] font-mono text-sm" value="{{ substr(config('services.ninerouter.password') ?? '', 0, 4) }}••••••••••••••••••••" placeholder="••••••••••••••••••••">
-                                <button id="toggleKeyBtn" onclick="toggleKeyVisibility()" class="px-3 py-2 rounded bg-[#7c3aed]/20 border border-[#7c3aed]/50 text-[#c2cfdd] hover:bg-[#7c3aed]/40 transition text-sm font-mono">Show</button>
-                                <button id="copyKeyBtn" onclick="copyToClipboard('apiKey', 'copyKeyBtn')" class="px-3 py-2 rounded bg-[#7c3aed]/20 border border-[#7c3aed]/50 text-[#c2cfdd] hover:bg-[#7c3aed]/40 transition text-sm font-mono">Copy</button>
-                            </div>
-                            <p class="text-xs text-[#8190a5] mt-2">Key is masked by default. Click "Show" to reveal (use only on secure devices).</p>
+                            <p class="text-sm text-[#8190a5]">API key tidak ditampilkan untuk keamanan. Hubungi admin atau lihat file .env pada server.</p>
                         </div>
                     </div>
 
@@ -409,7 +403,7 @@ curl -X GET {{ config('services.ninerouter.url') }}/api/usage/stats \<br>
                 location.hash = link.dataset.view;
             });
         });
-        const initialView = ['overview', 'activity', 'models', 'settings', 'apiinfo'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'overview';
+        const initialView = ['overview', 'settings', 'apiinfo'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'overview';
         switchView(initialView);
         if (initialView === 'settings') {
             checkServiceStatus();
