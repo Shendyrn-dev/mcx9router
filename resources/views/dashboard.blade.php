@@ -53,8 +53,15 @@
         .panel-title { color: #dce6f3; font-size: 12px; font-weight: 700; letter-spacing: .04em; }
         .metric { border:0; padding:10px 12px; min-height:68px; display:flex; flex-direction:column; justify-content:center; border-radius:10px; background:rgba(255,255,255,.018); transition:transform .2s,background .2s,box-shadow .2s; }
          .metric:hover { transform:translateY(-2px); background:rgba(255,255,255,.045); box-shadow:0 8px 20px rgba(0,0,0,.22); }
-        .metric-value { color: #e8f0f8; font-family: 'DM Mono', ui-monospace, monospace; font-size: 22px; font-weight: 500; letter-spacing: -.05em; }
-        .metric-label { color: #8190a5; font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; margin-bottom: 6px; }
+        .metric-value { color: #e8f0f8; font-family: 'DM Mono', ui-monospace, monospace; font-size: 24px; font-weight: 500; letter-spacing: -.05em; }
+        .metric-label { color: #8190a5; font-size: 0.75rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; margin-bottom: 6px; }
+        .cost { color: #eab308; }
+        @media (min-width: 1280px) {
+            #overview.grid-cols-2 .metric-value, #overview .metric-value { font-size: 28px; }
+            #overview.grid-cols-2 .metric-label, #overview .metric-label { font-size: 0.875rem; }
+        }
+        @media (max-width: 640px) { #overview.grid-cols-2 .metric-value { font-size: 20px; } }
+        #overview.grid { gap: 1rem; }
         .metric--violet { border-color: #8b5cf6; }.metric--red { border-color: #f87171; }.metric--green { border-color: #4ade80; }.metric--yellow { border-color: #fbbf24; }.metric--blue { border-color: #38bdf8; }
         #overview.grid-cols-2 > .terminal-card { min-height: 138px; padding: 26px !important; }
         #overview.grid-cols-2 .metric { padding: 12px 14px; min-height: 78px; }
@@ -81,7 +88,7 @@
         .live-dot { animation: blink 1.4s ease-in-out infinite; background: #4ade80; border-radius: 999px; display: inline-block; height: 7px; width: 7px; }
         @keyframes blink { 50% { opacity: .3; } }
         .status-pill { background: rgba(74,222,128,.09); border: 1px solid rgba(74,222,128,.2); border-radius: 99px; color: #86efac; font-size: 10px; font-weight: 700; letter-spacing: .08em; padding: 5px 9px; text-transform: uppercase; }
-        .token-in { color: #f87171; }.token-out { color: #4ade80; }.cost { color: #fbbf24; }.muted { color: #8190a5; }
+        .token-in { color: #f87171; }.token-out { color: #4ade80; }.cost { color: #eab308; }.muted { color: #8190a5; }
         table { border-collapse: collapse; min-width: 720px; width: 100%; }
         table th { background: #162131; border-bottom: 1px solid #243142; color: #8190a5; font-size: 10px; font-weight: 700; letter-spacing: .08em; padding: 11px 14px; text-align: left; text-transform: uppercase; }
         table td { border-bottom: 1px solid rgba(36,49,66,.7); color: #c2cfdd; font-size: 12px; padding: 12px 14px; }
@@ -144,7 +151,8 @@
                 <a class="side-link active" href="#overview" data-view="overview"><span>◈</span> Overview</a>
                 <a class="side-link" href="#activity" data-view="activity"><span>≋</span> Activity</a>
                 <a class="side-link" href="#models" data-view="models"><span>◫</span> Models</a>
-                <a class="side-link" href="#settings" data-view="settings" style="margin-top:auto;"><span>⚙</span> Settings</a>
+                <a class="side-link" href="#settings" data-view="settings"><span>⚙</span> Settings</a>
+                <a class="side-link" href="#apiinfo" data-view="apiinfo"><span>🔑</span> API Info</a>
             </nav>
             <div class="absolute bottom-5 left-3 right-3 rounded-xl p-3" style="background:rgba(17,24,35,.58); border:1px solid rgba(148,163,184,.12); box-shadow:0 10px 26px rgba(0,0,0,.16); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);">
                 <div class="mb-1 flex items-center gap-2 text-[11px] font-bold text-[#dce6f3]"><span class="live-dot"></span> LIVE CONNECTION</div>
@@ -230,6 +238,52 @@
                     <p class="mt-6 text-[11px] leading-5 text-[#64748b]">
                         <strong>Note:</strong> This sends an HTTP request with a 45-second timeout. If the instance was manually stopped or the platform doesn't support auto-wake, the request won't start it.
                     </p>
+                </section>
+
+                <section id="apiinfo" data-view="apiinfo" class="mb-5" style="display:none;">
+                    <div class="mb-8">
+                        <p class="mono mb-2 text-[10px] tracking-[.2em] text-blue-300">API CONFIGURATION</p>
+                        <h2 class="text-3xl font-bold text-[#e8f0f8]">API Info</h2>
+                        <p class="mt-2 text-sm text-[#8190a5]">Integration credentials for 9Router API access.</p>
+                    </div>
+
+                    <div class="rounded-lg border border-amber-500/25 bg-amber-950/20 p-4 mb-6">
+                        <div class="flex items-start gap-3">
+                            <span class="text-lg">⚠️</span>
+                            <div>
+                                <p class="font-bold text-amber-200">Keep credentials private</p>
+                                <p class="text-sm text-amber-100/70 mt-1">Never share API keys publicly or commit to version control. Anyone with your key can access your models and exhaust your quota.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-status-card">
+                        <div class="mb-6">
+                            <p class="mono text-[10px] text-[#8190a5] mb-3">ENDPOINT</p>
+                            <div class="flex items-center gap-2">
+                                <input type="text" id="apiEndpoint" readonly class="flex-1 px-3 py-2 rounded bg-[#111823] border border-[#243142] text-[#c2cfdd] font-mono text-sm" value="{{ config('services.ninerouter.url') }}">
+                                <button id="copyEndpointBtn" onclick="copyToClipboard('apiEndpoint', 'copyEndpointBtn')" class="px-3 py-2 rounded bg-[#7c3aed]/20 border border-[#7c3aed]/50 text-[#c2cfdd] hover:bg-[#7c3aed]/40 transition text-sm font-mono">Copy</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="mono text-[10px] text-[#8190a5] mb-3">API KEY</p>
+                            <div class="flex items-center gap-2">
+                                <input type="password" id="apiKey" readonly class="flex-1 px-3 py-2 rounded bg-[#111823] border border-[#243142] text-[#c2cfdd] font-mono text-sm" value="{{ substr(config('services.ninerouter.password') ?? '', 0, 4) }}••••••••••••••••••••" placeholder="••••••••••••••••••••">
+                                <button id="toggleKeyBtn" onclick="toggleKeyVisibility()" class="px-3 py-2 rounded bg-[#7c3aed]/20 border border-[#7c3aed]/50 text-[#c2cfdd] hover:bg-[#7c3aed]/40 transition text-sm font-mono">Show</button>
+                                <button id="copyKeyBtn" onclick="copyToClipboard('apiKey', 'copyKeyBtn')" class="px-3 py-2 rounded bg-[#7c3aed]/20 border border-[#7c3aed]/50 text-[#c2cfdd] hover:bg-[#7c3aed]/40 transition text-sm font-mono">Copy</button>
+                            </div>
+                            <p class="text-xs text-[#8190a5] mt-2">Key is masked by default. Click "Show" to reveal (use only on secure devices).</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-status-card mt-6">
+                        <p class="mono text-[10px] text-[#8190a5] mb-3">USAGE</p>
+                        <code class="block bg-[#0a0f16] border border-[#243142] rounded p-3 text-[#86efac] text-xs leading-relaxed font-mono overflow-x-auto">
+curl -X GET {{ config('services.ninerouter.url') }}/api/usage/stats \<br>
+&nbsp;&nbsp;-H "Authorization: Basic $(echo -n 'admin:YOUR_PASSWORD' | base64)"
+                        </code>
+                    </div>
                 </section>
             </div>
         </main>
@@ -319,6 +373,7 @@
             activity: { title: 'Recent Activity', sub: '9ROUTER / REQUEST LOG' },
             models: { title: 'Model Breakdown', sub: '9ROUTER / MODELS' },
             settings: { title: 'Settings', sub: '9ROUTER / MANAGEMENT' },
+            apiinfo: { title: 'API Info', sub: '9ROUTER / INTEGRATION' },
         };
         function switchView(target) {
             const meta = viewMeta[target] || viewMeta.overview;
@@ -328,15 +383,17 @@
                 link.classList.toggle('active', link.dataset.view === target);
             });
             document.querySelectorAll('main section[data-view]').forEach(section => {
-                if (target === 'settings') {
-                    section.style.display = section.dataset.view === 'settings' ? '' : 'none';
+                if (target === 'settings' || target === 'apiinfo') {
+                    section.style.display = section.dataset.view === target ? '' : 'none';
                 } else {
-                    section.style.display = section.dataset.view === 'settings' ? 'none' : '';
+                    section.style.display = (section.dataset.view === 'settings' || section.dataset.view === 'apiinfo') ? 'none' : '';
                 }
             });
             if (target === 'settings') {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 checkServiceStatus();
+            } else if (target === 'apiinfo') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             } else if (target === 'overview') {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 requestsChartInstance?.resize();
@@ -352,7 +409,7 @@
                 location.hash = link.dataset.view;
             });
         });
-        const initialView = ['overview', 'activity', 'models', 'settings'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'overview';
+        const initialView = ['overview', 'activity', 'models', 'settings', 'apiinfo'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'overview';
         switchView(initialView);
         if (initialView === 'settings') {
             checkServiceStatus();
@@ -489,6 +546,49 @@
                 }, 5000);
             }
         });
+
+        function copyToClipboard(elementId, buttonId) {
+            const element = document.getElementById(elementId);
+            const button = document.getElementById(buttonId);
+            const originalText = button.textContent;
+            
+            navigator.clipboard.writeText(element.value).then(() => {
+                button.textContent = 'Copied!';
+                button.style.background = '#22c55e/20';
+                button.style.borderColor = '#22c55e/50';
+                button.style.color = '#86efac';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#7c3aed/20';
+                    button.style.borderColor = '#7c3aed/50';
+                    button.style.color = '#c2cfdd';
+                }, 2000);
+            }).catch(() => {
+                button.textContent = 'Failed';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        let keyVisible = false;
+        function toggleKeyVisibility() {
+            const keyInput = document.getElementById('apiKey');
+            const toggleBtn = document.getElementById('toggleKeyBtn');
+            const fullKey = "{{ config('services.ninerouter.password') ?? '' }}";
+            
+            if (keyVisible) {
+                keyInput.type = 'password';
+                keyInput.value = fullKey.substring(0, 4) + '•'.repeat(Math.max(0, fullKey.length - 4));
+                toggleBtn.textContent = 'Show';
+                keyVisible = false;
+            } else {
+                keyInput.type = 'text';
+                keyInput.value = fullKey;
+                toggleBtn.textContent = 'Hide';
+                keyVisible = true;
+            }
+        }
     </script>
 </body>
 </html>
