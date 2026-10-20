@@ -10,12 +10,12 @@
     <title>mcx9route Terminal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         * { font-variant-numeric: tabular-nums; }
-        body { font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui; overflow-x: hidden; scrollbar-color: #333 #000; scrollbar-width: thin; background:#000; }
+        body { font-family: 'Manrope', sans-serif; overflow-x: hidden; scrollbar-color: #333 #000; scrollbar-width: thin; background:#000; }
         * { scrollbar-width: thin; scrollbar-color: #333 transparent; }
         *::-webkit-scrollbar { height: 8px; width: 8px; }
         *::-webkit-scrollbar-track { background: transparent; }
@@ -23,33 +23,16 @@
         *::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #666, #444); border-width: 1px; background-clip: padding-box; }
         *::-webkit-scrollbar-corner { background: transparent; }
         .mono { font-family: 'DM Mono', ui-monospace, monospace; }
-        .terminal-card { background:#0a0a0a; border:0; border-radius:16px; min-width:0; box-shadow:0 8px 24px rgba(0,0,0,.5); }
+        .terminal-card { background:#000000; border:2px solid #333333; border-radius:16px; min-width:0; box-shadow:0 8px 24px rgba(0,0,0,.5); }
          body { background:#000; background-image:none; }
-         .dashboard-header { position:sticky; top:0; z-index:20; min-height:82px; background:#0a0a0a; border-bottom:1px solid #1c1c1c; box-shadow:0 4px 16px rgba(0,0,0,.6); }
-         .page-kicker { color:#a78bfa; font:10px 'DM Mono',monospace; letter-spacing:.18em; }
+         .dashboard-header { position:sticky; top:0; z-index:20; min-height:40px; background:#0a0a0a; border-bottom:1px solid rgba(148,163,184,.12); transition:box-shadow .2s; }
+         .page-kicker { color:#0057FF; font:10px 'DM Mono',monospace; letter-spacing:.18em; }
          .header-actions { display:flex; align-items:center; }
          .status-pill { display:inline-flex; align-items:center; color:#86efac; font:10px 'DM Mono',monospace; text-transform:uppercase; letter-spacing:.08em; }
-         .period-picker { position:relative; }
-         .period-native-select { position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; }
-         .period-btn { display:flex; align-items:center; gap:3px; min-width:0; padding:5px 0; border:0; border-radius:0; background:transparent; color:#e8f0f8; font:600 12px 'DM Mono',monospace; cursor:pointer; box-shadow:none; }
-         .period-btn:hover, .period-btn[aria-expanded="true"] { background:transparent; }
-         .period-icon { margin-right:1px; }
-         .period-chevron { margin-left:3px; }
-         .period-icon { color:#c4b5fd; font-size:15px; line-height:1; }
-         .period-chevron { margin-left:auto; color:#c4b5fd; font-size:15px; line-height:1; }
-         .period-menu { position:absolute; top:calc(100% + 8px); right:0; z-index:50; display:none; min-width:138px; padding:5px; border:0; border-radius:12px; background:rgba(18,18,18,.96); box-shadow:0 14px 30px rgba(0,0,0,.55); }
-         .period-picker.is-open .period-menu { display:grid; gap:2px; }
-         .period-option { width:100%; padding:9px 10px; border:0; border-radius:8px; background:transparent; color:#aeb9c8; text-align:left; font:600 11px 'DM Mono',monospace; cursor:pointer; }
-         .period-option:hover, .period-option.is-selected { background:rgba(139,92,246,.22); color:#f1ecff; }
-         #periodSelect { appearance:none; min-width:140px; border:1px solid #333; border-radius:12px; background:#0a0a0a; padding:10px 34px 10px 36px; color:#e8f0f8; font:600 12px 'DM Mono',monospace; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,.4); transition:.2s; }
-         #periodSelect:hover, #periodSelect:focus { border-color:#666; background:#141414; outline:0; }
-         #periodSelect option { background:rgba(17,24,35,.88); color:#dce6f3; padding:10px 12px; }
-         .period-filter { position:relative; display:inline-flex; align-items:center; }
-         .period-filter::before { content:'◷'; position:absolute; left:13px; z-index:1; color:#c4b5fd; font-size:15px; pointer-events:none; }
-         .period-filter::after { content:'⌄'; position:absolute; right:13px; z-index:1; color:#c4b5fd; font-size:15px; pointer-events:none; }
-         #periodSelect { appearance:none; min-width:140px; border:1px solid rgba(167,139,250,.28); border-radius:12px; background:rgba(30,41,59,.62); padding:10px 34px 10px 36px; color:#e8f0f8; font:600 12px 'DM Mono',monospace; cursor:pointer; box-shadow:0 5px 18px rgba(0,0,0,.16),inset 0 1px rgba(255,255,255,.05); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); transition:.2s; }
-         #periodSelect:hover, #periodSelect:focus { border-color:#a78bfa; background-color:rgba(51,39,78,.72); box-shadow:0 0 0 3px rgba(167,139,250,.14),0 5px 18px rgba(124,58,237,.2); outline:0; }
-         #periodSelect option { background:#111823; color:#dce6f3; }
+         .period-buttons { display:flex; gap:8px; padding:6px; background:rgba(30,30,30,.8); border-radius:12px; }
+         .period-button { padding:8px 16px; border:0; border-radius:8px; background:transparent; color:#8190a5; font:600 13px system-ui,sans-serif; cursor:pointer; transition:.2s; }
+         .period-button:hover { background:rgba(128,128,128,.15); color:#0057FF; }
+         .period-button.active { background:rgba(56,189,248,.18); color:#0057FF; }
         .panel-title { color: #dce6f3; font-size: 12px; font-weight: 700; letter-spacing: .04em; }
         .metric { border:0; padding:10px 12px; min-height:68px; display:flex; flex-direction:column; justify-content:center; border-radius:10px; background:rgba(255,255,255,.018); transition:transform .2s,background .2s,box-shadow .2s; }
          .metric:hover { transform:translateY(-2px); background:rgba(255,255,255,.045); box-shadow:0 8px 20px rgba(0,0,0,.22); }
@@ -62,14 +45,14 @@
         }
         @media (max-width: 640px) { #overview.grid-cols-2 .metric-value { font-size: 20px; } }
         #overview.grid { gap: 1rem; }
-        .metric--violet { border-color: #8b5cf6; }.metric--red { border-color: #f87171; }.metric--green { border-color: #4ade80; }.metric--yellow { border-color: #fbbf24; }.metric--blue { border-color: #38bdf8; }
+        .metric--violet { border-color: #0057FF; }.metric--red { border-color: #f87171; }.metric--green { border-color: #4ade80; }.metric--yellow { border-color: #fbbf24; }.metric--blue { border-color: #0057FF; }
         #overview.grid-cols-2 > .terminal-card { min-height: 138px; padding: 26px !important; }
         #overview.grid-cols-2 .metric { padding: 12px 14px; min-height: 78px; }
         #overview.grid-cols-2 .metric-value { font-size: 36px; line-height: 1.2; }
         #overview.grid-cols-2 .metric-label { font-size: 14px; margin-bottom: 10px; }
         @media (max-width: 640px) { #overview.grid-cols-2 > .terminal-card { min-height: 108px; padding: 18px !important; } #overview.grid-cols-2 .metric-value { font-size: 20px; } }
         .chart-container { height: 310px; position: relative; }
-        .ai-activity { position:relative; overflow:hidden; min-height:170px; padding:24px 26px; background-color:rgba(17,24,35,.68); border:1px solid rgba(148,163,184,.14); border-radius:16px; backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); background-image:linear-gradient(rgba(129,144,165,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(129,144,165,.04) 1px,transparent 1px); background-size:26px 26px; }
+        .ai-activity { position:relative; overflow:hidden; min-height:170px; padding:24px 26px; background-color:#000000; border:2px solid #333333; border-radius:16px; }
         .ai-activity::before { content:''; position:absolute; left:12%; right:12%; top:50%; height:1px; background:linear-gradient(90deg,transparent,rgba(139,92,246,.35),transparent); }
         .ai-activity-head { position:relative; z-index:1; display:flex; align-items:center; justify-content:space-between; gap:12px; }
         .ai-model-list { position:relative; z-index:1; display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:center; gap:18px; min-height:125px; padding-top:20px; }
@@ -83,7 +66,7 @@
         @keyframes activityPulse { 70% { box-shadow:0 0 0 7px rgba(74,222,128,0); } 100% { box-shadow:0 0 0 0 rgba(74,222,128,0); } }
         .chart-container-small { height: 260px; position: relative; }
         .side-link { align-items: center; border-radius: 6px; color: #8190a5; display: flex; font-size: 13px; font-weight: 600; gap: 10px; padding: 10px 12px; }
-        .side-link.active { background: #1b2738; color: #e8f0f8; box-shadow: inset 2px 0 #8b5cf6; }
+        .side-link.active { background: #1b2738; color: #e8f0f8; box-shadow: inset 2px 0 #0057FF; }
         .side-link:hover { background: #162131; color: #e8f0f8; }
         .live-dot { animation: blink 1.4s ease-in-out infinite; background: #4ade80; border-radius: 999px; display: inline-block; height: 7px; width: 7px; }
         @keyframes blink { 50% { opacity: .3; } }
@@ -97,7 +80,7 @@
         @media (max-width: 1023px) { .sidebar { display: none; } }
         /* Settings controls: stable layout without generated utility classes. */
         #settings { max-width: 980px; margin: 0 auto; }
-        #settings .settings-status-card, #settings .settings-wake-card { background:rgba(17,24,35,.66); border:1px solid rgba(148,163,184,.14); border-radius:16px; box-shadow:0 12px 32px rgba(0,0,0,.18); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); }
+        #settings .settings-status-card, #settings .settings-wake-card { background:#000000; border:2px solid #333333; border-radius:16px; box-shadow:0 12px 32px rgba(0,0,0,.5); }
         #settings .settings-status-card { padding: 24px; margin-bottom: 18px; }
         #settings .settings-status-head { display:flex; align-items:center; justify-content:space-between; gap:20px; }
         #settings .settings-status-badge { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(148,163,184,.35); border-radius:999px; padding:8px 14px; color:#cbd5e1; background:rgba(148,163,184,.08); white-space:nowrap; }
@@ -110,7 +93,7 @@
         #serviceStatusDot.bg-red-500 { background:#ef4444 !important; }
         #serviceStatusDot.bg-yellow-500 { background:#eab308 !important; }
         #settings .settings-status-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:18px; }
-        #settings .settings-meta { background:rgba(13,21,32,.65); border:1px solid rgba(148,163,184,.1); border-radius:10px; padding:14px 16px; min-width:0; backdrop-filter:blur(10px); }
+        #settings .settings-meta { background:#000000; border:2px solid #333333; border-radius:10px; padding:14px 16px; min-width:0; }
         #settings .settings-wake-card { padding:28px; }
         #settings .settings-wake-head { display:flex; align-items:flex-start; gap:16px; }
         #settings .settings-wake-icon { display:grid; place-items:center; width:48px; height:48px; flex:none; border-radius:12px; background:rgba(139,92,246,.16); font-size:24px; }
@@ -118,8 +101,8 @@
         #settings .settings-wake-copy h3 { margin:0 0 7px; font-size:18px; }
         #settings .settings-wake-copy p { max-width:650px; margin:0; color:#8190a5; font-size:13px; line-height:1.6; }
         #settings .settings-wake-action { display:flex; justify-content:center; padding-top:26px; margin-top:24px; border-top:1px solid #243142; }
-        #wakeBtn { position:relative; display:inline-flex; align-items:center; justify-content:center; width:280px; min-height:54px; border:0; border-radius:10px; background:linear-gradient(135deg,#7c3aed,#9333ea); box-shadow:0 10px 28px rgba(124,58,237,.28); cursor:pointer; }
-        #wakeBtn:hover { background:linear-gradient(135deg,#8b5cf6,#a855f7); box-shadow:0 12px 34px rgba(139,92,246,.42); transform:translateY(-1px); }
+        #wakeBtn { position:relative; display:inline-flex; align-items:center; justify-content:center; width:280px; min-height:54px; border:0; border-radius:10px; background:linear-gradient(135deg,#0057FF,#0057FF); box-shadow:0 10px 28px rgba(56,189,248,.28); cursor:pointer; }
+        #wakeBtn:hover { background:linear-gradient(135deg,#0057FF,#0057FF); box-shadow:0 12px 34px rgba(56,189,248,.42); transform:translateY(-1px); }
         #wakeBtn:disabled { cursor:not-allowed; opacity:.6; transform:none; }
         #wakeBtn > div { position:static !important; background:none !important; }
         #wakeBtn > div > div { position:static !important; padding:0 !important; background:none !important; }
@@ -128,11 +111,24 @@
         @media (max-width:640px) { #settings .settings-status-grid { grid-template-columns:1fr; } #settings .settings-wake-card { padding:20px; } #settings .settings-status-head { align-items:flex-start; flex-direction:column; } #wakeBtn { width:100%; } }
         /* Black theme overrides */
         .terminal-card, #settings .settings-status-card, #settings .settings-wake-card { background:rgba(18,18,18,.58); border:0; box-shadow:0 12px 32px rgba(0,0,0,.5), inset 0 1px rgba(255,255,255,.035); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); }
-        .ai-activity { background-color:#05070d; background-image:radial-gradient(circle at 18% 24%,rgba(255,255,255,.8) 0 1px,transparent 1.5px),radial-gradient(circle at 76% 18%,rgba(186,230,253,.75) 0 1px,transparent 1.5px),radial-gradient(circle at 88% 72%,rgba(255,255,255,.65) 0 1px,transparent 1.5px),radial-gradient(circle at 42% 82%,rgba(196,181,253,.7) 0 1px,transparent 1.5px),radial-gradient(ellipse at 72% 45%,rgba(91,33,182,.18),transparent 30%),radial-gradient(ellipse at 20% 100%,rgba(14,116,144,.14),transparent 34%),linear-gradient(145deg,#03040a,#0b1020 55%,#05070d); background-size:180px 140px,240px 180px,210px 160px,270px 200px,100% 100%,100% 100%,100% 100%; border:0; box-shadow:0 12px 32px rgba(0,0,0,.55),inset 0 1px rgba(255,255,255,.04); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); }
+        .ai-activity {
+            background: radial-gradient(2px 2px at 20% 30%, #fff, rgba(255,255,255,0)), 
+                        radial-gradient(2px 2px at 60% 70%, #fff, rgba(255,255,255,0)),
+                        radial-gradient(1px 1px at 50% 50%, #fff, rgba(255,255,255,0)),
+                        radial-gradient(1px 1px at 80% 10%, #fff, rgba(255,255,255,0)),
+                        radial-gradient(1px 1px at 10% 90%, #fff, rgba(255,255,255,0)),
+                        radial-gradient(3px 3px at 90% 60%, #ffb347, rgba(255,179,71,0)),
+                        radial-gradient(2px 2px at 15% 60%, #87ceeb, rgba(135,206,235,0)),
+                        linear-gradient(180deg, #0a0e27 0%, #1a2d4d 50%, #0f1a35 100%);
+            background-size: 200px 200px, 150px 150px, 180px 180px, 160px 160px, 220px 220px, 100% 100%, 100% 100%, 100% 100%;
+            background-attachment: fixed;
+            border:0;
+            box-shadow:0 12px 32px rgba(0,0,0,.55), inset 0 1px rgba(255,255,255,.04);
+        }
         .dashboard-header { min-height:64px; background:rgba(5,5,5,.72); border-bottom:0; backdrop-filter:blur(22px); -webkit-backdrop-filter:blur(22px); }
-        #pageTitle { font-size:15px; }
+        #pageTitle { font-family: 'Manrope', sans-serif; font-size:13px; }
         #pageSubtitle { font-size:9px; }
-        .sidebar { background:rgba(5,5,5,.7) !important; border-right:0 !important; backdrop-filter:blur(22px); -webkit-backdrop-filter:blur(22px); }
+        .sidebar { background:#000; border-right:0; }
         .side-link.active { background:#151515; box-shadow:none; }
         table th { background:#101010; border-bottom:1px solid #222; }
         table td { border-bottom:1px solid #181818; }
@@ -140,55 +136,60 @@
         #settings .settings-wake-card, #settings .settings-status-card { background:rgba(18,18,18,.58); }
     </style>
 </head>
-<body class="bg-[#091019] text-[#e8f0f8]">
-    <div class="min-h-screen lg:grid lg:grid-cols-[220px_1fr]">
-        <aside class="sidebar sticky top-0 h-screen px-3 py-5" style="background:rgba(13,21,32,.68); border-right:1px solid rgba(148,163,184,.12); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);">
-            <div class="mb-8 flex items-center gap-3 px-3">
-                <img src="{{ asset('mcx9route-logo.svg') }}" alt="mcx9route logo" width="28" height="28" style="height:28px;width:28px;border-radius:6px;display:block;flex:none;">
-                <div><div class="font-bold tracking-tight">mcx9route</div><div class="mono text-[9px] text-[#8190a5]">USAGE TERMINAL</div></div>
+<body class="text-[#e8f0f8]" style="background:#000;">
+    <div class="h-screen flex overflow-hidden">
+        <aside class="sidebar flex-shrink-0 h-screen px-3 py-1" style="background:#000; border-right:1px solid rgba(148,163,184,.12); width:220px; overflow-y-auto;">
+            <div class="mb-0 flex items-center gap-3 px-3 py-0">
+                <img src="{{ asset('logos/mcx9route-tech-logo.png') }}" alt="mcx9route logo" width="300" height="300" style="display:block;">
             </div>
             <nav class="space-y-1">
-                <a class="side-link active" href="#overview" data-view="overview"><span>◈</span> Overview</a>
+                <a class="side-link active" href="#overview" data-view="overview"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m787-145 28-28-75-75v-112h-40v128l87 87Zm-587 25q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v268q-19-9-39-15.5t-41-9.5v-243H200v560h242q3 22 9.5 42t15.5 38H200Zm0-120v40-560 243-3 280Zm80-40h163q3-21 9.5-41t14.5-39H280v80Zm0-160h244q32-30 71.5-50t84.5-27v-3H280v80Zm0-160h400v-80H280v80ZM720-40q-83 0-141.5-58.5T520-240q0-83 58.5-141.5T720-440q83 0 141.5 58.5T920-240q0 83-58.5 141.5T720-40Z"/></svg> Overview</a>
 
-                <a class="side-link" href="#settings" data-view="settings"><span>⚙</span> Settings</a>
-                <a class="side-link" href="#apiinfo" data-view="apiinfo"><span>🔑</span> API Info</a>
+                <a class="side-link" href="#apiinfo" data-view="apiinfo"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M223.5-423.5Q200-447 200-480t23.5-56.5Q247-560 280-560t56.5 23.5Q360-513 360-480t-23.5 56.5Q313-400 280-400t-56.5-23.5ZM280-240q-100 0-170-70T40-480q0-100 70-170t170-70q67 0 121.5 33t86.5 87h352l120 120-180 180-80-60-80 60-85-60h-47q-32 54-86.5 87T280-240Zm0-80q56 0 98.5-34t56.5-86h125l58 41 82-61 71 55 75-75-40-40H435q-14-52-56.5-86T280-640q-66 0-113 47t-47 113q0 66 47 113t113 47Z"/></svg> API Info</a>
+
+                <p class="text-xs text-[#8190a5] mt-4" style="margin-left:12px;">System</p>
+                <a class="side-link" href="#settings" data-view="settings"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z"/></svg> Settings</a>
             </nav>
-            <div class="absolute bottom-5 left-3 right-3 rounded-xl p-3" style="background:rgba(17,24,35,.58); border:1px solid rgba(148,163,184,.12); box-shadow:0 10px 26px rgba(0,0,0,.16); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);">
-                <div class="mb-1 flex items-center gap-2 text-[11px] font-bold text-[#dce6f3]"><span class="live-dot"></span> LIVE CONNECTION</div>
-                <p class="mono text-[9px] text-[#8190a5]">9Router API connected</p>
-            </div>
+
         </aside>
 
-        <main class="min-w-0">
-            <header class="dashboard-header flex items-center justify-between gap-4 px-4 sm:px-6">
-                <div><h1 id="pageTitle" class="text-lg font-bold tracking-tight">Usage Overview</h1><p id="pageSubtitle" class="mono text-[10px] text-[#8190a5]">9ROUTER / ANALYTICS</p></div>
-                <div class="header-actions">
-                    <div class="period-picker" id="periodPicker">
-                        <select id="periodSelect" aria-label="Select time period" class="period-native-select">
-                            <option value="today">Today</option><option value="24h">24 Hours</option><option value="7d">7 Days</option><option value="30d">30 Days</option><option value="all">All Time</option>
-                        </select>
-                        <button type="button" id="periodBtn" class="period-btn" aria-haspopup="listbox" aria-expanded="false"><span class="period-icon">◷</span><span id="periodLabel">Today</span><span class="period-chevron">⌄</span></button>
-                        <div id="periodMenu" class="period-menu" role="listbox">
-                            <button type="button" class="period-option is-selected" data-value="today" role="option">Today</button>
-                            <button type="button" class="period-option" data-value="24h" role="option">24 Hours</button>
-                            <button type="button" class="period-option" data-value="7d" role="option">7 Days</button>
-                            <button type="button" class="period-option" data-value="30d" role="option">30 Days</button>
-                            <button type="button" class="period-option" data-value="all" role="option">All Time</button>
-                        </div>
-                    </div>
-                </div>
+        <main class="min-w-0 flex-1" id="mainContent" style="overflow-y:auto; height:100vh;">
+            <header class="dashboard-header flex items-center justify-between gap-4 px-4 sm:px-6" style="min-height:40px; padding-top:4px; padding-bottom:4px;">
+                <div class="header-title"><h1 id="pageTitle" class="text-lg font-bold tracking-tight">Usage Overview</h1></div>
             </header>
 
             <div class="p-4 sm:p-6">
                 <div id="statusError" class="mb-4 hidden rounded-md border border-red-400/30 bg-red-950/30 p-3 text-sm text-red-200"><strong>API Error:</strong> <span id="errorMessage"></span></div>
 
-                <section id="overview" data-view="overview" class="mb-5 grid grid-cols-2 gap-3 xl:grid-cols-6">
-                    <div class="terminal-card p-4"><div class="metric metric--violet"><div class="metric-label">Total Requests</div><div class="metric-value" id="statRequests">—</div></div></div>
-                    <div class="terminal-card p-4"><div class="metric metric--red"><div class="metric-label">Input Tokens</div><div class="metric-value token-in" id="statPromptTokens">—</div></div></div>
-                    <div class="terminal-card p-4"><div class="metric metric--blue"><div class="metric-label">Cached Tokens</div><div class="metric-value" id="statCachedTokens">—</div></div></div>
-                    <div class="terminal-card p-4"><div class="metric metric--green"><div class="metric-label">Output Tokens</div><div class="metric-value token-out" id="statCompletionTokens">—</div></div></div>
-                    <div class="terminal-card p-4"><div class="metric metric--yellow"><div class="metric-label">Est. Cost</div><div class="metric-value cost" id="statCost">—</div></div></div>
-                    <div class="terminal-card p-4"><div class="metric metric--violet"><div class="metric-label">Cache Hit Rate</div><div class="metric-value" id="statCachePercent">—</div></div></div>
+
+                <select id="periodSelect" style="display:none;">
+                    <option value="today">Today</option>
+                    <option value="24h">24 Hours</option>
+                    <option value="7d">7 Days</option>
+                    <option value="30d">30 Days</option>
+                    <option value="60d">60 Days</option>
+                    <option value="all">All Time</option>
+                </select>
+
+                <section id="overview" data-view="overview" class="mb-5">
+                    <div class="flex justify-end mb-4">
+                        <div class="period-buttons">
+                            <button type="button" class="period-button active" data-period="today">Today</button>
+                            <button type="button" class="period-button" data-period="24h">24h</button>
+                            <button type="button" class="period-button" data-period="7d">7D</button>
+                            <button type="button" class="period-button" data-period="30d">30D</button>
+                            <button type="button" class="period-button" data-period="60d">60D</button>
+                            <button type="button" class="period-button" data-period="all">All</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 xl:grid-cols-6">
+                        <div class="terminal-card p-4"><div class="metric metric--violet"><div class="metric-label">Total Requests</div><div class="metric-value" id="statRequests">—</div></div></div>
+                        <div class="terminal-card p-4"><div class="metric metric--red"><div class="metric-label">Input Tokens</div><div class="metric-value token-in" id="statPromptTokens">—</div></div></div>
+                        <div class="terminal-card p-4"><div class="metric metric--blue"><div class="metric-label">Cached Tokens</div><div class="metric-value" id="statCachedTokens">—</div></div></div>
+                        <div class="terminal-card p-4"><div class="metric metric--green"><div class="metric-label">Output Tokens</div><div class="metric-value token-out" id="statCompletionTokens">—</div></div></div>
+                        <div class="terminal-card p-4"><div class="metric metric--yellow"><div class="metric-label">Est. Cost</div><div class="metric-value cost" id="statCost">—</div></div></div>
+                        <div class="terminal-card p-4"><div class="metric metric--violet"><div class="metric-label">Cache Hit Rate</div><div class="metric-value" id="statCachePercent">—</div></div></div>
+                    </div>
                 </section>
 
                 <section id="aiActivity" data-view="overview" class="ai-activity terminal-card mb-5">
@@ -207,7 +208,7 @@
 
                 <section id="settings" data-view="settings" class="mb-5" style="display:none;">
                     <div class="mb-8">
-                        <p class="mono mb-2 text-[10px] tracking-[.2em] text-violet-300">SERVICE CONTROL</p>
+                        <p class="mono mb-2 text-[10px] tracking-[.2em] text-blue-300">SERVICE CONTROL</p>
                         <h2 class="text-3xl font-bold text-[#e8f0f8]">Settings</h2>
                         <p class="mt-2 text-sm text-[#8190a5]">Manage 9Router service connection and instance status.</p>
                     </div>
@@ -316,7 +317,7 @@ curl -X GET {{ config('services.ninerouter.url') }}/api/usage/stats \<br>
         function renderCharts(data) {
             const labels = data.map(d => d.label || ''), requests = data.map(d => Number(d.requests) || 0), tokens = data.map(d => Number(d.tokens) || 0);
             requestsChartInstance?.destroy(); tokensChartInstance?.destroy();
-            requestsChartInstance = new Chart(document.getElementById('requestsChart'), { type: 'line', data: { labels, datasets: [{ label: 'Requests', data: requests, borderColor: '#a78bfa', backgroundColor: 'rgba(139,92,246,.12)', pointRadius: 0, pointHoverRadius: 4, borderWidth: 2, tension: .35, fill: true }] }, options: makeOptions() });
+            requestsChartInstance = new Chart(document.getElementById('requestsChart'), { type: 'line', data: { labels, datasets: [{ label: 'Requests', data: requests, borderColor: '#0057FF', backgroundColor: 'rgba(0,87,255,.12)', pointRadius: 0, pointHoverRadius: 4, borderWidth: 2, tension: .35, fill: true }] }, options: makeOptions() });
             tokensChartInstance = new Chart(document.getElementById('tokensChart'), { type: 'bar', data: { labels, datasets: [{ label: 'Tokens', data: tokens, backgroundColor: 'rgba(74,222,128,.55)', hoverBackgroundColor: '#4ade80', borderRadius: 2, maxBarThickness: 18 }] }, options: makeOptions() });
         }
         function renderRecent(recent) { const rows = recent.slice(0, 10).map(r => `<tr><td class="mono muted">${formatTime(r.timestamp)}</td><td class="mono">${text(r.model)}</td><td>${text(r.provider)}</td><td class="mono token-in">${formatNumber(r.promptTokens)}</td><td class="mono token-out">${formatNumber(r.completionTokens)}</td><td><span class="badge">${text(r.status || 'ok')}</span></td></tr>`).join(''); document.getElementById('recentTable').innerHTML = rows || '<tr><td colspan="6" class="muted py-5 text-center">No recent requests</td></tr>'; }
@@ -372,7 +373,6 @@ curl -X GET {{ config('services.ninerouter.url') }}/api/usage/stats \<br>
         function switchView(target) {
             const meta = viewMeta[target] || viewMeta.overview;
             document.getElementById('pageTitle').textContent = meta.title;
-            document.getElementById('pageSubtitle').textContent = meta.sub;
             document.querySelectorAll('.side-link').forEach(link => {
                 link.classList.toggle('active', link.dataset.view === target);
             });
@@ -408,26 +408,17 @@ curl -X GET {{ config('services.ninerouter.url') }}/api/usage/stats \<br>
         if (initialView === 'settings') {
             checkServiceStatus();
         }
-        const periodPicker = document.getElementById('periodPicker');
-        const periodBtn = document.getElementById('periodBtn');
-        const periodMenu = document.getElementById('periodMenu');
-        const periodLabel = document.getElementById('periodLabel');
         const periodSelect = document.getElementById('periodSelect');
-        periodBtn.addEventListener('click', () => {
-            const open = periodPicker.classList.toggle('is-open');
-            periodBtn.setAttribute('aria-expanded', String(open));
-        });
-        periodMenu.querySelectorAll('.period-option').forEach(option => option.addEventListener('click', () => {
-            periodSelect.value = option.dataset.value;
-            periodLabel.textContent = option.textContent;
-            periodMenu.querySelectorAll('.period-option').forEach(item => item.classList.remove('is-selected'));
-            option.classList.add('is-selected');
-            periodPicker.classList.remove('is-open');
-            periodBtn.setAttribute('aria-expanded', 'false');
+        document.querySelectorAll('.period-button').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.period-button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            periodSelect.value = btn.dataset.period;
             periodSelect.dispatchEvent(new Event('change'));
-        }));
-        document.addEventListener('click', event => { if (!periodPicker.contains(event.target)) { periodPicker.classList.remove('is-open'); periodBtn.setAttribute('aria-expanded', 'false'); } });
-        periodSelect.addEventListener('change', loadData); loadData();
+          });
+        });
+        periodSelect.addEventListener('change', loadData);
+        loadData();
 
         let lastServiceCheck = null;
         function checkServiceStatus() {
@@ -583,6 +574,15 @@ curl -X GET {{ config('services.ninerouter.url') }}/api/usage/stats \<br>
                 keyVisible = true;
             }
         }
-    </script>
+        const mainContent = document.getElementById('mainContent');
+        mainContent.addEventListener('scroll', () => {
+            const header = document.querySelector('.dashboard-header');
+            if (mainContent.scrollTop > 0) {
+                header.style.boxShadow = '0 4px 16px rgba(0,0,0,.6)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+        });
+</script>
 </body>
 </html>
